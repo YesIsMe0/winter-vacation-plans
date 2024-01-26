@@ -2,22 +2,20 @@
 
 import pandas as pd
 import os
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 
 
-class DataProcessing:
-    def __init__(self):
+class DataProcessingClass:
+    def __init__(self, current_date):
         # self.today= date.today()
-        self.today = date(2024, 1, 28)
+        self.today = current_date  # 初始日期
         self.course = self.new_today_csv()
-        today_course = self.get_course()  # noqa: F841
+        self.today_course = self.get_course()
 
     # 获取今天的学习任务
     def get_course(self):
         today = self.today
-        self.course = pd.read_csv(
-            f"data/{today}.csv", usecols=["学科", "完成情况"]
-        )
+        self.course = pd.read_csv(f"data/{today}.csv", usecols=["学科", "完成情况"])
         self.today_course = self.course[self.course["完成情况"].isnull()][
             "学科"
         ].tolist()
@@ -92,10 +90,12 @@ class DataProcessing:
                     row["权值"]
                 )  # -0.3
             # 如果昨天学过，初始化权重
-            else:
+            elif row["完成情况"] != 0:
                 data_yesterday.at[index, "权值"] = self.plan_init_weight(
                     row["权值"]
                 )  # init
+            else:
+                pass
 
         # 清理完成情况和学习时间
         data = data_yesterday
@@ -111,7 +111,8 @@ class DataProcessing:
         # 添加学习时间列
         data["学习时间"] = ""
         data.loc[data.index >= 6, "学习时间"] = 0
-
+        # 所有数据保留一位小数
+        data = data.round(1)
         # 保存处理后的数据
         data.to_csv(f"data/{today}.csv", index=False)
 
@@ -149,13 +150,16 @@ class DataProcessing:
         os.system("cls")
         for index, row in data.iterrows():
             if row["学科"] in self.today_course:
-                
-                data.at[index, "学习时间"] = input(f"请输入{row['学科']}的学习时间：")
+                study_time = input(f"请输入{row['学科']}的学习时间（默认为1.5）：")
+                data.at[index, "学习时间"] = study_time if study_time else "1.5"
         print("=============================================")
         for index, row in data.iterrows():
             if row["学科"] in self.today_course:
-                data.at[index, "完成情况"] = input(f"请输入{row['学科']}的完成情况：")
+                completion_status = input(f"请输入{row['学科']}的完成情况（默认为2）：")
+                data.at[index, "完成情况"] = (
+                    completion_status if completion_status else "2"
+                )
         data.to_csv(f"data/{today}.csv", index=False)
-        
-    
-    
+        # 完成输入，将temp文件夹中的文件移动到time文件夹中
+        os.system(f"move temp/{today}.csv time/{today}.csv")
+        print("将今天的学习情况保存到time文件夹中")
