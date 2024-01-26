@@ -24,13 +24,23 @@ def img_plot_bar_chart(date_today):
 
     # 统计每个科目的学习次数
     counts = df["学科"].value_counts()
+    # 指定图片的大小
+    plt.figure(figsize=(30, 10))
 
-    # 画柱状图
-    plt.bar(counts.index, counts.values)
+    # 画柱状图，设置颜色和边框颜色
+    plt.bar(counts.index, counts.values, color='skyblue', edgecolor='black', width=0.5)
 
+    # 设置标题和轴标签的字体大小
+    plt.title(f"{start_day}到{today}每科的学习情况", fontsize=20)
+    plt.xlabel("学科", fontsize=15)
+    plt.ylabel("学习次数", fontsize=15)
+
+    # 添加网格
+    plt.grid(True)
+    
     plt.xlabel("学科")
     plt.ylabel("学习次数")
-    plt.title(f"{start_day}到{today}每科的学习情况")
+    plt.title(f"{start_day}到{today}每科的学习情况", fontsize=16)
     # 保存文件到img文件夹下
     # 同时将文件目录和文件名写入到要保存的文件名中
     plt.savefig(f"{__file__[:-3]}.png")
@@ -70,4 +80,3 @@ def img_plot_bar_chart(date_today):
     # plt.show()
 
 
-# img_plot_bar_chart(datetime.date.today())
