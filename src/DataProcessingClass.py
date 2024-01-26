@@ -1,13 +1,10 @@
-# data processing
-
+# data processing class
 import pandas as pd
 import os
-from datetime import date, timedelta, datetime
-
-
+from datetime import timedelta
 class DataProcessingClass:
     def __init__(self, current_date):
-        # self.today= date.today()
+
         self.today = current_date  # 初始日期
         self.course = self.new_today_csv()
         self.today_course = self.get_course()

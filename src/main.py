@@ -1,8 +1,10 @@
 
 import DataProcessingClass as dpc
 import schedule_todo_list
-
-dpc = dpc.DataProcessingClass()
+import datetime
+# 今天的日期
+current_date = datetime.date.today()
+dpc = dpc.DataProcessingClass(current_date=current_date)
 dpc.new_today_csv()
 dpc.course
 
@@ -10,5 +12,5 @@ dpc.course
 # DataProcessing.input_today_study()
 # schedule_night = schedule_night.schedule_night()
 
-schedule_todo_list = schedule_todo_list.schedule_week()
+schedule_todo_list = schedule_todo_list.schedule_week(date_today=current_date)
 

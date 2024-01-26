@@ -3,7 +3,7 @@ import schedule
 import time
 import DataProcessingClass
 import img_plot
-import datetime
+
 
 def schedule_night():
     def job():

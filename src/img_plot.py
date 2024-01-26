@@ -1,10 +1,8 @@
 import matplotlib.pyplot as plt
 import shutil
 import pandas as pd
-from datetime import date, timedelta
+from datetime import timedelta
 import os
-import datetime
-
 
 # 每周一画一次柱状图，描述每科的学习情况
 def img_plot_bar_chart(date_today):
@@ -12,7 +10,7 @@ def img_plot_bar_chart(date_today):
     plt.rcParams["font.sans-serif"] = ["SimHei"]
     # 从周一开始，往前推7天
     today = date_today
-    start_day = today - timedelta(days=today.weekday())
+    start_day = today - timedelta(days=6)
     days = [start_day + timedelta(days=i) for i in range(7)]
     dataframes = []
 
@@ -72,4 +70,4 @@ def img_plot_bar_chart(date_today):
     # plt.show()
 
 
-img_plot_bar_chart(datetime.date.today())
+# img_plot_bar_chart(datetime.date.today())
