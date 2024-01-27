@@ -142,21 +142,28 @@ class DataProcessingClass:
 
     # 输入今天的学习时间和学习情况
     def input_today_study(self):
+        # 如果 time/{today}.csv 文件不存在，就新建一个,有就退出
         today = self.today
-        data = pd.read_csv(f"data/{today}.csv")
-        os.system("cls")
-        for index, row in data.iterrows():
-            if row["学科"] in self.today_course:
-                study_time = input(f"请输入{row['学科']}的学习时间（默认为1.5）：")
-                data.at[index, "学习时间"] = study_time if study_time else "1.5"
-        print("=============================================")
-        for index, row in data.iterrows():
-            if row["学科"] in self.today_course:
-                completion_status = input(f"请输入{row['学科']}的完成情况（默认为2）：")
-                data.at[index, "完成情况"] = (
-                    completion_status if completion_status else "2"
-                )
-        data.to_csv(f"data/{today}.csv", index=False)
-        # 完成输入，将temp文件夹中的文件移动到time文件夹中
-        os.system(f"move temp/{today}.csv time/{today}.csv")
-        print("将今天的学习情况保存到time文件夹中")
+        if not os.path.exists(f"time/{self.today}.csv"):
+            
+        
+            data = pd.read_csv(f"data/{today}.csv")
+            os.system("cls")
+            for index, row in data.iterrows():
+                if row["学科"] in self.today_course:
+                    study_time = input(f"请输入{row['学科']}的学习时间（默认为1.5）：")
+                    data.at[index, "学习时间"] = study_time if study_time else "1.5"
+            print("=============================================")
+            for index, row in data.iterrows():
+                if row["学科"] in self.today_course:
+                    completion_status = input(f"请输入{row['学科']}的完成情况（默认为2）：")
+                    data.at[index, "完成情况"] = (
+                        completion_status if completion_status else "2"
+                    )
+            data.to_csv(f"data/{today}.csv", index=False)
+            # 完成输入，将temp文件夹中的文件移动到time文件夹中
+            os.system(f"move temp/{today}.csv time/{today}.csv")
+            print("将今天的学习情况保存到time文件夹中")
+        else:
+            print("今天的学习情况已经输入过了")
+            return
