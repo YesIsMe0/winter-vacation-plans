@@ -5,8 +5,8 @@ import os
 for i in range(1, 80):
     current_date = datetime.date.today() + datetime.timedelta(days=i)
     dp = dp_module.DataProcessingClass(current_date)
-    dp.new_today_csv()
-    dp.get_course()
+    dp.new_today_csv(current_date)
+    dp.get_course(current_date)
     print(dp.today_course)
     print(dp.today)
     print(dp.course)
