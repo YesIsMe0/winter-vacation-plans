@@ -29,16 +29,18 @@ class DataProcessingClass:
         return self.course
 
     # 新建今天的csv文件
-    def new_today_csv(self,current_date):
+    def new_today_csv(self,current_date)->bool:
         # 获取今天的日期
         today = current_date
         yesterday = today - timedelta(days=1)
         # 如果没有昨天的csv文件，就新建一个，有的话就读取昨天的csv文件
         if not os.path.exists(f"data/{yesterday}.csv"):
             self.new_today_csv_from_plan(today)
+            return True # 返回True表示新建了今天的csv文件
         else:
             # 处理昨天的csv文件
             self.yesterday_data_process(today)
+            return False # 返回False表示之前已经有了数据，将会画图
 
     # 从plan.csv文件新建今天的csv文件
     def new_today_csv_from_plan(self, current_date):

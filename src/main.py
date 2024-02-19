@@ -9,9 +9,9 @@ current_date = datetime.date.today()
 # 如果没有到第二天的凌晨3点，日期修改为昨天
 if current_time < datetime.time(3, 0):
     current_date = current_date - datetime.timedelta(days=1)
-    
+    current_time = current_time.replace(hour=23, minute=30, second=0, microsecond=0)
+
 # 如果没有到第二天的凌晨3点，时间修改为昨天的23点30分
-current_time = current_time.replace(hour=23, minute=30, second=0, microsecond=0)
 
 
 if current_time < datetime.time(22, 0):
@@ -19,9 +19,10 @@ if current_time < datetime.time(22, 0):
     # 创建 DataProcessingClass 实例
     dpc_instance = dpc.DataProcessingClass(current_date=current_date)
     # 如果当前时间是晚上10点前
-    dpc_instance.new_today_csv(current_date)
+    Is_first_date = dpc_instance.new_today_csv(current_date)
     # dpc_instance.course
-    schedule_todo_list = schedule_todo_list.schedule_week(date_today=current_date)
+    if Is_first_date is False:
+        schedule_todo_list = schedule_todo_list.schedule_week(date_today=current_date)
 else:
     print("schedule_night:将在23:00输入今天的学习情况")
     # 如果当前时间是晚上10点或以后

@@ -6,6 +6,8 @@ import os
 
 # 每周一画一次柱状图，描述每科的学习情况
 def img_plot_bar_chart(date_today):
+    # 如果 data/{date_today}.csv 文件不存在，就不画图
+    
     # 字体
     plt.rcParams["font.sans-serif"] = ["SimHei"]
     # 从周一开始，往前推7天
